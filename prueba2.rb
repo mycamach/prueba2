@@ -10,7 +10,11 @@ notas.map do |ele|
   grades = notas_alumno.map(&:to_f)
   suma = grades.inject(0) { |sum, x| sum + x }
   promedio = suma / grades.length
-  puts "#{nombre} tiene promedio #{promedio}"
+  puts 'Ingrese nombre de archivo y extensión, por ejemplo: grades.txt. Se generará un archivo por alumno.'
+  filename = gets.chomp
+  file = File.open(filename, 'w')
+  file.puts "#{nombre} tiene promedio #{promedio}"
+  file.close
 end
 
 #alumno = {}
@@ -43,7 +47,7 @@ while input
          puts '¡Hasta pronto!'
          exit
        else
-         puts 'La opción no es válida. Vuelve a ingresar un número.'
+         puts 'La opción no es válida. Vuelve a ingresar una opción.'
        end
 end
 
