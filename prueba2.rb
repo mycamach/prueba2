@@ -1,16 +1,34 @@
 file = File.open('notas.csv', 'r')
-notas = file.read
+notas = file.readlines
 file.close
 
-puts 'Sistema de notas'
+notas.map do |ele|
+  data = ele.split(', ').map(&:chomp)
+  nombre = data[0]
+  notas_alumno = data[1..5]
+  notas_alumno.delete_if { |n| n == 'A' }
+  grades = notas_alumno.map(&:to_f)
+  suma = grades.inject(0) { |sum, x| sum + x }
+  promedio = suma / grades.length
+  puts "#{nombre} tiene promedio #{promedio}"
+end
+
+#alumno = {}
+#alumno[data[0].to_sym] = notas_alumno
+
+#def aprobados(nota)
+#end
+
+=begin
+puts 'Sistema de notas', "\n"
 
 input = 0
 
 while input
-  puts 'Ingrese 1 para generar archivos por alumno.'
-  puts 'Ingrese 2 para mostrar las inasistencias totales.'
-  puts 'Ingrese 3 para mostrar los alumnos aprobados.'
-  puts 'Ingrese 4 para salir.'
+  puts 'Ingresa 1 para generar archivos por alumno.'
+  puts 'Ingresa 2 para mostrar las inasistencias totales.'
+  puts 'Ingresa 3 para mostrar los alumnos aprobados.'
+  puts 'Ingresa 4 para salir.'
 
   input = gets.chomp.to_i
 
@@ -28,4 +46,6 @@ while input
          puts 'La opción no es válida. Vuelve a ingresar un número.'
        end
 end
+
+=end
 
