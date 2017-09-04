@@ -10,15 +10,12 @@ notas.map do |ele|
   grades = notas_alumno.map(&:to_f)
   suma = grades.inject(0) { |sum, x| sum + x }
   promedio = suma / grades.length
-  puts 'Ingrese nombre de archivo y extensión, por ejemplo: grades.txt. Se generará un archivo por alumno.'
-  filename = gets.chomp
-  file = File.open(filename, 'w')
-  file.puts "#{nombre} tiene promedio #{promedio}"
-  file.close
+  alumnos = {}
+  alumnos[nombre.to_sym] = promedio
+  file = File.open('notas_alumnos.txt', 'a') do |average|
+    alumnos.each { |k, v| average.puts "#{k} tiene promedio #{v}" }
+  end
 end
-
-#alumno = {}
-#alumno[data[0].to_sym] = notas_alumno
 
 #def aprobados(nota)
 #end
@@ -38,7 +35,7 @@ while input
 
   puts case input
        when 1
-         puts 'Elegiste la opción 1.'
+         puts 'Se ha creado el archivo notas_alumnos.txt.'
        when 2
          puts 'Elegiste la opción 2.'
        when 3
