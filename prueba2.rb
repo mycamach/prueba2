@@ -1,50 +1,45 @@
 def grade_average(filename)
 
-  file = File.open(filename, 'r') # refactorizar!
-  notas = file.readlines
-  file.close
+  notas = File.open(filename, 'r').readlines
 
   notas.map do |ele|
     data = ele.split(', ').map(&:chomp)
-    nombre = data[0]
-    notas_alumno = data[1..5]
-    notas_alumno.delete_if { |n| n == 'A' }
+    notas_alumno = data[1..5].delete_if { |n| n == 'A' }
     grades = notas_alumno.map(&:to_f)
     suma = grades.inject(0) { |sum, x| sum + x }
-    promedio = suma / grades.length
-    file = File.open('promedio_alumnos.txt', 'a+')
-    file.puts "#{nombre} tiene promedio #{promedio}"
-    file.close
-
-    #alumnos = {}
-    #alumnos[nombre.to_sym] = promedio
-
-    #file = File.open('promedio_alumnos.txt', 'a') do |average|
-    #  alumnos.each { |k, v| average.puts "#{k} tiene promedio #{v}" }
-    #end
+    average = suma / grades.length
+    File.open('alumnos.txt', 'a+'){ |file| file.puts "#{data[0]} tiene promedio #{average}" }
   end
 end
 
 def total_assistance(filename)
-  file = File.open(filename, 'r')
-  assistance = file.readlines
-  file.close
-
+  assistance = File.open(filename, 'r').readlines
   assistance.map do |element|
     info = element.split(', ').map(&:chomp)
     name = info[0]
-    miss = info.select.count { |n| n == 'A' }
-    if miss.zero?
+    missed = info.select.count { |n| n == 'A' }
+    if missed.zero?
       puts "#{name} no ha faltado a ninguna prueba."
-    elsif miss == 1
-      puts "#{name} ha faltado #{miss} vez a prueba."
+    elsif missed == 1
+      puts "#{name} ha faltado a #{missed} prueba."
     else
-      puts "#{name} ha faltado #{miss} veces a prueba."
+      puts "#{name} ha faltado a #{missed} pruebas."
     end
   end
 end
 
-puts 'Sistema de notas', "\n"
+def passing_students(filename)
+  data = File.open(filename, 'r').readlines
+  data.map do |datos|
+    alumnos = datos.split(', ').map(&:chomp)
+    nombre = alumnos.shift
+    print nombre
+  
+  
+  end
+end
+
+puts 'Registro de asistencias y evaluaciones', "\n"
 
 input = 0
 
@@ -59,13 +54,14 @@ while input
   puts case input
        when 1
          grade_average('notas.csv')
-         puts 'Se ha creado el archivo promedio_alumnos.txt en su directorio'
+         puts 'Se ha creado el archivo alumnos.txt en su directorio actual.'
          
        when 2
          total_assistance('notas.csv')
          
        when 3
-         puts 'Elegiste la opción 3.'
+         passing_students('notas.csv')
+         
        when 4
          puts '¡Hasta pronto!'
          exit
@@ -73,4 +69,3 @@ while input
          puts 'La opción no es válida. Vuelve a ingresar una opción.'
        end
 end
-
