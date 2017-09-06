@@ -18,16 +18,16 @@ def total_assistance(filename)
     name = info[0]
     missed = info.select.count { |n| n == 'A' }
     if missed.zero?
-      puts "#{name} no ha faltado a ninguna prueba."
+      puts "#{name} no ha faltado a ninguna prueba.", "\n"
     elsif missed == 1
-      puts "#{name} ha faltado a #{missed} prueba."
+      puts "#{name} ha faltado a #{missed} prueba.", "\n"
     else
-      puts "#{name} ha faltado a #{missed} pruebas."
+      puts "#{name} ha faltado a #{missed} pruebas.", "\n"
     end
   end
 end
 
-def passing_students(nota = 5.0)
+def passing_students(nota)
   data = File.open('notas.csv', 'r').readlines
   data.map do |datos|
     alumnos_notas = datos.split(', ').map(&:chomp)
@@ -54,7 +54,7 @@ while input
   case input
   when 1
     grade_average_file('notas.csv')
-    puts 'Se ha creado el archivo alumnos.txt en su directorio actual.'
+    puts 'Se ha creado el archivo alumnos.txt en su directorio actual.', "\n"
          
   when 2
     total_assistance('notas.csv')
@@ -62,18 +62,24 @@ while input
   when 3
     puts 'Ingresa la nota de aprobación (entre 1.0 y 10).'
     passing_grade = gets.to_f
-
+    print passing_grade
+    
     if passing_grade <= 10 && passing_grade > 0
     
       puts 'Los alumnos aprobados son:'
       passing_students(passing_grade)
 
+    elsif passing_grade == 0.0
+      passing_grade = 5.0
+      puts 'Los alumnos aprobados son:'
+      passing_students(passing_grade)
+
     else
-      puts 'La nota ingresada no es válida. Vuelve a presionar 3.'
+      puts 'La nota ingresada no es válida. Vuelve a presionar 3.', "\n"
     end
          
   when 4
-    puts '¡Hasta pronto!'
+    puts '¡Hasta pronto!', "\n"
     exit
   else
     puts 'La opción no es válida. Vuelve a ingresar una opción.'
