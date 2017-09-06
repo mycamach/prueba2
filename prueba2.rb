@@ -11,11 +11,6 @@ def grade_average_file(filename)
   end
 end
 
-#def average_file(filename)
-  #promedio = grade_average(filename).pop
-  #print "Mi promedio es #{promedio}"
-#end
-
 def total_assistance(filename)
   assistance = File.open(filename, 'r').readlines
   assistance.map do |element|
@@ -32,7 +27,7 @@ def total_assistance(filename)
   end
 end
 
-def passing_students(nota)
+def passing_students(nota = 5.0)
   data = File.open('notas.csv', 'r').readlines
   data.map do |datos|
     alumnos_notas = datos.split(', ').map(&:chomp)
@@ -56,24 +51,31 @@ while input
 
   input = gets.chomp.to_i
 
-  puts case input
-       when 1
-         grade_average_file('notas.csv')
-         puts 'Se ha creado el archivo alumnos.txt en su directorio actual.'
+  case input
+  when 1
+    grade_average_file('notas.csv')
+    puts 'Se ha creado el archivo alumnos.txt en su directorio actual.'
          
-       when 2
-         total_assistance('notas.csv')
+  when 2
+    total_assistance('notas.csv')
          
-       when 3
-         puts 'Ingresa la nota de aprobación (ej: 5.0).'
-         passing_grade = gets
-         puts 'Los alumnos aprobados son:'
-         passing_students(passing_grade)
+  when 3
+    puts 'Ingresa la nota de aprobación (entre 1.0 y 10).'
+    passing_grade = gets.to_f
+
+    if passing_grade <= 10 && passing_grade > 0
+    
+      puts 'Los alumnos aprobados son:'
+      passing_students(passing_grade)
+
+    else
+      puts 'La nota ingresada no es válida. Vuelve a presionar 3.'
+    end
          
-       when 4
-         puts '¡Hasta pronto!'
-         exit
-       else
-         puts 'La opción no es válida. Vuelve a ingresar una opción.'
-       end
+  when 4
+    puts '¡Hasta pronto!'
+    exit
+  else
+    puts 'La opción no es válida. Vuelve a ingresar una opción.'
+  end
 end
