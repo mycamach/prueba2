@@ -40,7 +40,7 @@ def passing_students(nota)
     alumnos_final = alumnos.map(&:to_f)
     sumatoria = alumnos_final.inject(0) { |suma, g| suma + g }
     promedio = sumatoria / alumnos_final.length
-    puts "Alumno aprobado: #{alumnos_notas[0]}" if promedio > nota.to_f
+    puts alumnos_notas[0] if promedio >= nota.to_f
   end
 end
 
@@ -67,6 +67,7 @@ while input
        when 3
          puts 'Ingresa la nota de aprobación (ej: 5.0).'
          passing_grade = gets
+         puts 'Los alumnos aprobados son:'
          passing_students(passing_grade)
          
        when 4
